@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Checklist de Entrega - TI</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    label { display: block; margin: 10px 0 5px; }
+    input[type="text"], input[type="date"], textarea { width: 100%; padding: 8px; }
+  </style>
+</head>
+<body>
+  <h2>✔️ Checklist de Entrega da TI – Loja [Nome/Nº]</h2>
+  <form id="checklistForm">
+    <label>Data da entrega:
+      <input type="date" name="DataEntrega" required>
+    </label>
+    <label>Responsável Técnico TI:
+      <input type="text" name="ResponsavelTI" required>
+    </label>
+    <label>Responsável da Loja/Obra:
+      <input type="text" name="ResponsavelLoja" required>
+    </label>
+
+    <fieldset>
+      <legend>Checklist - marque tudo que foi <strong>concluído</strong>:</legend>
+      <label><input type="checkbox" name="MontagemRack"> Montagem do rack de rede</label>
+      <label><input type="checkbox" name="MontagemPDV"> Montagem do(s) PDV(s)</label>
+      <label><input type="checkbox" name="CrimpagemCabos"> Crimpagem e teste dos cabos de rede</label>
+      <label><input type="checkbox" name="InstalacaoCameras"> Instalação das câmeras de segurança</label>
+      <label><input type="checkbox" name="TestePDV"> Teste de vendas no PDV</label>
+      <label><input type="checkbox" name="TesteMobshop"> Teste de vendas no MobShop</label>
+      <label><input type="checkbox" name="LiberacaoMeraki"> Liberação da porta no Meraki (vitrine digital)</label>
+    </fieldset>
+
+    <label>Número do chamado CSF (se aplicável):
+      <input type="text" name="NumeroChamado">
+    </label>
+    <label>Observações adicionais:
+      <textarea name="Observacoes" rows="4"></textarea>
+    </label>
+
+    <button type="submit">Enviar checklist</button>
+  </form>
+
+  <div id="msg" style="margin-top:20px;"></div>
+
+  <script>
+    const scriptURL = 'COLE_AQUI_SUA_URL_DO_APPS_SCRIPT';
+    const form = document.getElementById('checklistForm');
+    const msg = document.getElementById('msg');
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+        .then(response => {
+          msg.innerHTML = '✅ Checklist enviado com sucesso!';
+          form.reset();
+        })
+        .catch(error => {
+          msg.innerHTML = '❌ Ocorreu um erro. Tente novamente.';
+          console.error('Erro:', error);
+        });
+    });
+  </script>
+</body>
+</html>
